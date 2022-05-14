@@ -11,7 +11,7 @@ export class PlayersService {
 
   private readonly logger = new Logger(PlayersService.name);
 
-  async createPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {
+  async create(createPlayerDto: CreatePlayerDto): Promise<Player> {
     const foundPlayer = await this.playerModel.findOne({ email: createPlayerDto.email }).exec();
 
     if (foundPlayer) throw new BadRequestException(`Player with email ${createPlayerDto.email} already exists`);
@@ -19,7 +19,7 @@ export class PlayersService {
     return new this.playerModel(createPlayerDto).save();
   }
 
-  async updatePlayer(id: string, updatePlayerDto: UpdatePlayerDto): Promise<void> {
+  async update(id: string, updatePlayerDto: UpdatePlayerDto): Promise<void> {
     const foundPlayer = await this.playerModel.findOne({ id }).exec();
 
     if (!foundPlayer) throw new NotFoundException(`Player with id ${id} does not exists`);
@@ -27,17 +27,17 @@ export class PlayersService {
     await this.playerModel.findOneAndUpdate({ id }, { $set: updatePlayerDto }).exec();
   }
 
-  async deletePlayer(id: string) {
-    await this.getPlayerById(id);
+  async remove(id: string) {
+    await this.findOne(id);
 
     return await this.playerModel.deleteOne({ id }).exec();
   }
 
-  async getAllPlayers(): Promise<Player[]> {
+  async findAll(): Promise<Player[]> {
     return await this.playerModel.find().exec();
   }
 
-  async getPlayerById(id: string): Promise<Player> {
+  async findOne(id: string): Promise<Player> {
     const foundPlayer = await this.playerModel.findById(id).exec();
 
     if (!foundPlayer) throw new NotFoundException(`Player with id ${id} does not exists`);

@@ -11,28 +11,28 @@ export class PlayersController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  async createOrUpdatePlayer(@Body() createPlayerDto: CreatePlayerDto) {
-    return await this.playersService.createPlayer(createPlayerDto);
+  async create(@Body() createPlayerDto: CreatePlayerDto) {
+    return await this.playersService.create(createPlayerDto);
   }
 
   @Put('/:_id')
   @UsePipes(ValidationPipe)
-  async post(@Param('_id', PlayersValidationsParametersPipe) id: string, @Body() updatePlayerDto: UpdatePlayerDto) {
-    return await this.playersService.updatePlayer(id, updatePlayerDto);
+  async update(@Param('_id', PlayersValidationsParametersPipe) id: string, @Body() updatePlayerDto: UpdatePlayerDto) {
+    return await this.playersService.update(id, updatePlayerDto);
   }
 
   @Get()
-  async getAllPlayers(): Promise<Player[]> {
-    return await this.playersService.getAllPlayers();
+  async findAll(): Promise<Player[]> {
+    return await this.playersService.findAll();
   }
 
   @Get('/:_id')
-  async getPlayer(@Param('_id') id: string) {
-    return await this.playersService.getPlayerById(id);
+  async findOne(@Param('_id') id: string) {
+    return await this.playersService.findOne(id);
   }
 
   @Delete('/:_id')
-  async deletePlayer(@Param('_id', PlayersValidationsParametersPipe) id: string) {
-    return await this.playersService.deletePlayer(id);
+  async remove(@Param('_id', PlayersValidationsParametersPipe) id: string) {
+    return await this.playersService.remove(id);
   }
 }
