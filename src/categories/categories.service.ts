@@ -25,14 +25,10 @@ export class CategoriesService {
   }
 
   async findOne(id: string) {
-    try {
-      const foundCategory = await this.categoryModel.findById(id).populate('players').exec();
-      if (!foundCategory) throw new NotFoundException(`Category with id ${id} not found`);
+    const foundCategory = await this.categoryModel.findById(id).populate('players').exec();
+    if (!foundCategory) throw new NotFoundException(`Category with id ${id} not found`);
 
-      return foundCategory;
-    } catch (err) {
-      throw new NotFoundException(`Category with id ${id} not found`);
-    }
+    return foundCategory;
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
