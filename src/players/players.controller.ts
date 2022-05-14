@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
-import { Player } from './entities/player.interface';
+import { UpdatePlayerDto } from './dto/update-player.dto';
+import { Player } from './interfaces/player.interface';
+import { PlayersValidationsParametersPipe } from './pipes/players-validations-parameters.pipe';
 import { PlayersService } from './players.service';
 
 @Controller('players')
@@ -8,8 +10,15 @@ export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
   @Post()
+  @UsePipes(ValidationPipe)
   async createOrUpdatePlayer(@Body() createPlayerDto: CreatePlayerDto) {
-    await this.playersService.createOrUpdatePlayer(createPlayerDto);
+    return await this.playersService.createPlayer(createPlayerDto);
+  }
+
+  @Put('/:_id')
+  @UsePipes(ValidationPipe)
+  async post(@Param('_id', PlayersValidationsParametersPipe) id: string, @Body() updatePlayerDto: UpdatePlayerDto) {
+    return await this.playersService.updatePlayer(id, updatePlayerDto);
   }
 
   @Get()
@@ -17,13 +26,13 @@ export class PlayersController {
     return await this.playersService.getAllPlayers();
   }
 
-  @Get(':email')
-  async getPlayer(@Param('email') email: string) {
-    return await this.playersService.getPlayer(email);
+  @Get('/:_id')
+  async getPlayer(@Param('_id') id: string) {
+    return await this.playersService.getPlayerById(id);
   }
 
-  @Delete(':email')
-  async deletePlayer(@Param('email') email: string) {
-    return await this.playersService.deletePlayer(email);
+  @Delete('/:_id')
+  async deletePlayer(@Param('_id', PlayersValidationsParametersPipe) id: string) {
+    return await this.playersService.deletePlayer(id);
   }
 }
