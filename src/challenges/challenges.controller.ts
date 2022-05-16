@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ChallengesService } from './challenges.service';
+import { ChallengerService } from './challenges.service';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 
 @Controller('challenges')
 export class ChallengesController {
-  constructor(private readonly challengesService: ChallengesService) {}
+  constructor(private readonly challengesService: ChallengerService) {}
 
   @Post()
   create(@Body() createChallengeDto: CreateChallengeDto) {

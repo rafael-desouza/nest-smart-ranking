@@ -64,4 +64,13 @@ export class CategoriesService {
     foundCategory.players.filter((player) => player._id.toString() !== playerId);
     await this.categoryModel.findByIdAndUpdate(foundCategory._id, { $set: foundCategory }).exec();
   }
+
+  async getPlayerCategory(playerId: string) {
+    await this.playersService.findOne(playerId);
+
+    const foundCategory = await this.categoryModel.findOne({ players: playerId });
+    if (!foundCategory) throw new NotFoundException(`Player with id ${playerId} is not registered in any category`);
+
+    return foundCategory;
+  }
 }

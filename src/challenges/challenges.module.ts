@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ChallengesService } from './challenges.service';
+import { ChallengerService } from './challenges.service';
 import { ChallengesController } from './challenges.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ChallengeSchema } from './interfaces/challenges.schema';
@@ -17,6 +17,6 @@ import { CategoriesModule } from 'src/categories/categories.module';
     CategoriesModule,
   ],
   controllers: [ChallengesController],
-  providers: [ChallengesService],
+  providers: [ChallengerService],
 })
 export class ChallengesModule {}

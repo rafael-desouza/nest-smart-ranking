@@ -39,7 +39,6 @@ export class PlayersService {
 
   async findOne(id: string): Promise<Player> {
     const foundPlayer = await this.playerModel.findById(id).exec();
-
     if (!foundPlayer) throw new NotFoundException(`Player with id ${id} does not exists`);
 
     return foundPlayer;
